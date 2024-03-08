@@ -78,13 +78,11 @@ public class GameManager : MonoBehaviour
 
             currentPlayerName = data.currentPlayerName;
 
-            Debug.Log(currentPlayerName);
-
             OnValueChange(currentPlayerName);
         }
     }
 
-    //Loads the best score and the best player's name from a existing json, in case there's no record, deactivates the best score text
+    //Loads the best score and the best player's name from a existing json
     public void LoadData()
     {
         string path = Application.persistentDataPath + "/savefile.json";
@@ -97,32 +95,42 @@ public class GameManager : MonoBehaviour
 
             bestScore = data.bestScore;
             bestPlayerName = data.bestPlayerName;
-            if (bestScore != 0 && bestPlayerName != "")
-            {
-                bestScore_text.SetActive(true);
-                bestScore_text.GetComponent<Text>().text = "Best Score :" + bestScore + "  Name:" + bestPlayerName;
-            }
-            else
-            {
-                bestScore_text.SetActive(false);
-            }
+          
+            bestScore_text.SetActive(true);
+            bestScore_text.GetComponent<Text>().text = "Best Score: " + bestScore + " Name: " + bestPlayerName;
         }
     }
 
     //saves the new score data if it is higher than the previous one
     public void NewHighScore(int score)
     {
-        SaveData data = new SaveData();
+        //gets the path for the file and the file
+        string path = Application.persistentDataPath + "/savefile.json";
 
-        if (score > data.bestScore)
+        //checks if it exists
+        if (File.Exists(path))
         {
-            data.bestPlayerName = currentPlayerName;
+            //reads the text in json
+            string json = File.ReadAllText(path);
 
-            data.bestScore = score;
+            //transfers the json data to a the class save data
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            string json = JsonUtility.ToJson(data);
+            //checks if the score is bigget than the previous biggest score
+            if (score > data.bestScore)
+            {
+                //if it is changes the variables
+                data.bestPlayerName = currentPlayerName;
 
-            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+                data.bestScore = score;
+
+                //picks up the same json and gets the new data
+                json = JsonUtility.ToJson(data);
+
+                //writes the new data
+                File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+            }
         }
+        
     }
 }
