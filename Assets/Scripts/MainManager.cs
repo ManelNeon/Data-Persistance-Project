@@ -57,6 +57,8 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                //added this code so that the high score text would change when the scene reset
+                GameManager.Instance.LoadData();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -70,6 +72,8 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        //added this code that sends the final points and records it in case its bigger than the previous high score
+        GameManager.Instance.NewHighScore(m_Points);
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
