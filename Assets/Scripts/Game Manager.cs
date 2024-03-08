@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     public void OnValueChange(string placeName)
     {
         currentPlayerName = placeName;
-        GameObject.Find("Canvas").GetComponent<UIManager>().ChangeName(currentPlayerName);
     }
 
     //Class for the recorded variables
@@ -57,13 +56,30 @@ public class GameManager : MonoBehaviour
     //function that saves the current players name, so that he can load it later
     public void SaveName()
     {
-        SaveData data = new SaveData();
+        string path = Application.persistentDataPath + "/savefile.json";
 
-        data.currentPlayerName = currentPlayerName;
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
 
-        string json = JsonUtility.ToJson(data);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+            data.currentPlayerName = currentPlayerName;
+
+            json = JsonUtility.ToJson(data);
+
+            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        }
+        else
+        {
+            SaveData data = new SaveData();
+
+            data.currentPlayerName = currentPlayerName;
+
+            string json = JsonUtility.ToJson(data);
+
+            File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        }
     }
 
     //loads the current players name
@@ -78,7 +94,7 @@ public class GameManager : MonoBehaviour
 
             currentPlayerName = data.currentPlayerName;
 
-            OnValueChange(currentPlayerName);
+            GameObject.Find("Canvas").GetComponent<UIManager>().OnValueChange(currentPlayerName);
         }
     }
 

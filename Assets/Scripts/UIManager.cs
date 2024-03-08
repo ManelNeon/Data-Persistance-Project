@@ -10,9 +10,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameDisplay_text;
 
     //function that changes the name
-    public void ChangeName(string name)
+    public void OnValueChange(string name)
     {
         nameDisplay_text.text = "Player : " + name;
+        GameManager.Instance.OnValueChange(name);
     }
 
     //Starts the game by loading the scene index 1, the main scene, and saves the name that is currently on the prompt
@@ -20,5 +21,10 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.SaveName();
         SceneManager.LoadScene(1);
+    }
+
+    public void LoadText()
+    {
+        GameManager.Instance.LoadName();
     }
 }

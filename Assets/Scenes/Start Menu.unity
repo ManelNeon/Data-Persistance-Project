@@ -935,8 +935,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 215084364}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 290170529}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: OnValueChange
         m_Mode: 0
         m_Arguments:
@@ -1086,9 +1086,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 215084364}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: LoadName
+      - m_Target: {fileID: 290170529}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: LoadText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
